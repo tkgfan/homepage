@@ -1,0 +1,2 @@
+# homepage
+Customizable minimum homepage
