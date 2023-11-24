@@ -1,0 +1,3 @@
+const CONFIG = {
+    title: "acsupport"
+}

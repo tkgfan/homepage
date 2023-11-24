@@ -6,12 +6,25 @@ package router
 import (
 	"acsupport/common/errs"
 	"acsupport/common/result"
+	"acsupport/v1/service/web"
 	"context"
 	"github.com/gin-gonic/gin"
 )
 
 func InitRouter(r *gin.Engine) {
-	pingApi(r)
+	r.GET("/:path", get)
+	r.GET("", get)
+}
+
+func get(c *gin.Context) {
+	path := c.Param("path")
+	// 获取文件
+	data, err := web.GetFile(path)
+	if err != nil {
+		result.HttpResult(c, data, err)
+		return
+	}
+	c.Writer.Write(data)
 }
 
 // 处理 JSON 请求
