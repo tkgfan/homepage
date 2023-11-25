@@ -6,14 +6,31 @@ package router
 import (
 	"acsupport/common/errs"
 	"acsupport/common/result"
+	"acsupport/v1/models"
 	"acsupport/v1/service/web"
 	"context"
 	"github.com/gin-gonic/gin"
+	"github.com/tkgfan/got/core/env"
 )
 
+var updatePath = "/update"
+
+func init() {
+	env.LoadStr(&updatePath, "UPDATE_PATH", false)
+}
+
 func InitRouter(r *gin.Engine) {
+	// 获取页面
 	r.GET("/:path", get)
 	r.GET("", get)
+
+	// 更新配置文件
+	r.POST(updatePath, func(c *gin.Context) {
+		req := new(models.Config)
+		jsonHandle(c, req, func(ctx context.Context) (resp any, err error) {
+			return web.UpdateConfig(req)
+		})
+	})
 }
 
 func get(c *gin.Context) {

@@ -1,4 +1,4 @@
-// author lby
+// author gmfan
 // date 2023/11/24
 
 package web
@@ -57,6 +57,11 @@ func GetFile(_path string) (res []byte, err error) {
 }
 
 func readFile(path string) (res []byte, err error) {
+	if path == configFile {
+		// configFile 需要特殊处理，其会优先使用 dbFile 内的配置
+		return GetConfig()
+	}
+
 	fs, err := os.Open(webRoot + path)
 	if err != nil {
 		return
