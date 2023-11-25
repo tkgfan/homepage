@@ -4,9 +4,20 @@ It is a small [homepage](https://homepage.gmfan.cn/) project that allows custom 
 
 ![homepage](./doc/img/homepage.png)
 
+## Install
+
+```shell
+git clone https://github.com/tkgfan/homepage.git
+
+go mod tidy
+
+go run main.go
+```
+
 ## Deployment
 
 Use docker-compose for quick deployment.
+
 ```yaml
 version: '3.8'
 services:
@@ -20,11 +31,14 @@ services:
     ports:
       - '38001:8888'
 ```
+
 Parameter explanations:
-- `ACCESS_LIST`: List of allowed IP addresses to access. 
+
+- `ACCESS_LIST`: List of allowed IP addresses to access.
 - `UPDATE_PATH`: Custom path for updating configurations.
 
 To update the configuration information at the `UPDATE_PATH` using a POST request and achieve a custom list, the configuration parameters should follow the following format:
+
 ```rest
 POST /UPDATE_PATH
 
