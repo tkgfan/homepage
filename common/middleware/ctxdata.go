@@ -9,6 +9,7 @@ import (
 	"github.com/tkgfan/got/core/logx"
 	"net"
 	"net/http"
+	"strings"
 )
 
 // 有权访问列表
@@ -47,17 +48,7 @@ func SetCtxData() func(c *gin.Context) {
 
 		// 判断 IP 是否由访问权限
 		access := false
-		cHost, _, err := net.SplitHostPort(clientIP(c.Request))
-		if err != nil {
-			logx.Errorf("解析【%s】失败", clientIP(c.Request))
-			c.Abort()
-			return
-		}
-		//本地ip
-		if cHost == "::1" {
-			cHost = "127.0.0.1"
-		}
-		cip := net.ParseIP(cHost)
+		cip := net.ParseIP(clientIP(c.Request))
 		for i := 0; i < len(accessList); i++ {
 			if accessList[i].Contains(cip) {
 				access = true
@@ -83,6 +74,10 @@ func clientIP(r *http.Request) (remoteIp string) {
 		remoteIp = ip
 	} else if ip = r.Header.Get("X-Forwarded-For"); ip != "" {
 		remoteIp = ip
+	}
+	//本地ip
+	if strings.Contains(remoteIp, "::1") {
+		remoteIp = "127.0.0.1"
 	}
 	return remoteIp
 }

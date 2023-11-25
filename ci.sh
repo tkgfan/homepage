@@ -21,20 +21,18 @@ if [ "$IMAGE_TYPE" != "test" ]  &&  [ "$IMAGE_TYPE" != "release" ]
     exit 1
 fi
 
-# Docker 仓库地址
-DOCKER_REGISTRY_PROXY="registry.com"
 # 组
-DOCKER_GROUP="group"
+DOCKER_GROUP="gmfan"
 # 镜像名
-DOCKER_IMAGE_NAME="image_name"
+DOCKER_IMAGE_NAME="homepage"
 # 版本
 DOCKER_TAG=$(cat version)"-$IMAGE_TYPE"
 # 镜像名称
-DOCKER_IMAGE_NAME_TAG=$DOCKER_REGISTRY_PROXY"/"$DOCKER_GROUP"/"$DOCKER_IMAGE_NAME":"$DOCKER_TAG
+DOCKER_IMAGE_NAME_TAG=$DOCKER_GROUP"/"$DOCKER_IMAGE_NAME":"$DOCKER_TAG
 
 echo "开始构建 Docker 镜像: "$DOCKER_IMAGE_NAME_TAG
 # 登录远程仓库
-docker login $DOCKER_REGISTRY_PROXY -u $DOCKER_NAME -p $DOCKER_PASSWORD
+docker login -u $DOCKER_NAME_HUB -p $DOCKER_PASSWORD_HUB
 # 执行构建
 docker build --no-cache=false -t $DOCKER_IMAGE_NAME_TAG -f Dockerfile .
 # 推送镜像到仓库

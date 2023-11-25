@@ -17,6 +17,7 @@ FROM alpine:latest
 
 WORKDIR /app
 ENV TZ Asia/Shanghai
+COPY --from=builder /build/web /app/web
 COPY --from=builder /app/app /app/app
 
 EXPOSE 8888
