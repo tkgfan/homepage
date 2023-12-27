@@ -19,7 +19,7 @@ var pathMap = map[string]string{
 	"":            "index.html",
 	"index.html":  "index.html",
 	"index":       "index.html",
-	"config.js":   "config.js",
+	"config.json": "config.json",
 	"favicon.ico": "favicon.ico",
 }
 

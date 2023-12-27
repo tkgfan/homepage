@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .aac-shadow {
@@ -36,31 +35,33 @@
     </div>
 </body>
 <script>
-    const { header, links } = CONFIG
+    fetch("config.json")
+        .then(response => response.json())
+        .then((cfg)=>{
+            const { header, links } = cfg
+            //头部
+            const { title, subTitle, icon } = header
+            document.title = title
 
-    //头部
-    const { title, subTitle, icon } = header
-    document.title = title
+            const titleEl = document.querySelector('#title')
+            titleEl.innerHTML = title
 
-    const titleEl = document.querySelector('#title')
-    titleEl.innerHTML = title
+            const subTitleEl = document.querySelector('#subTitle')
+            subTitleEl.innerHTML = subTitle
 
-    const subTitleEl = document.querySelector('#subTitle')
-    subTitleEl.innerHTML = subTitle
-
-    const headerIconEl = document.querySelector('#header-icon')
-    headerIconEl.src = icon
+            const headerIconEl = document.querySelector('#header-icon')
+            headerIconEl.src = icon
 
 
-    //内容
-    const linksWrapperEl = document.querySelector('.linksWrapper')
+            //内容
+            const linksWrapperEl = document.querySelector('.linksWrapper')
 
-    links.forEach(link => {
-        const el = document.createElement('div')
-        el.innerHTML = `<a href="${link.url}" target="_blank" class="flex flex-col items-center border-gray-200 border-[1px] p-4 py-10 aac-shadow"><img src="${link.icon}" class="w-10 h-10" /><div class="mt-4">${link.title}</div></a>`
-        linksWrapperEl.append(el)
-    });
-
+            links.forEach(link => {
+                const el = document.createElement('div')
+                el.innerHTML = `<a href="${link.url}" target="_blank" class="flex flex-col items-center border-gray-200 border-[1px] p-4 py-10 aac-shadow"><img src="${link.icon}" class="w-10 h-10" /><div class="mt-4">${link.title}</div></a>`
+                linksWrapperEl.append(el)
+            });
+        })
 </script>
 
 </html>
